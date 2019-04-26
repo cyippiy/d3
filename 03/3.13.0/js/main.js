@@ -3,7 +3,7 @@
 *    Mastering Data Visualization with D3.js
 *    Project 1 - Star Break Coffee
 */
-let margin = { left:40, right:20, top:10, bottom:30};
+let margin = { left:100, right:10, top:10, bottom:150};
 let width = 600 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
@@ -14,18 +14,34 @@ let g = d3.select("#chart-area")
     .append("g")
         .attr("transform", `translate( ${margin.left}, ${margin.top} )`);
 
+g.append("text")
+    .attr("class", "x axis-label")
+    .attr("x", width/2)
+    .attr("y", height+50)
+    .attr("font-size", "20px")
+    .attr("text-anchor", "middle")
+    .text("Month");
+
+g.append("text")
+    .attr("class", "y axis-label")
+    .attr("x", - (height / 2))
+    .attr("y", -60)
+    .attr("font-size", "20px")
+    .attr("text-anchor", "middle")
+    .attr("transform", "rotate(-90)")
+    .text("Revenue");
+
 d3.json("data/revenues.json").then( (data) =>{
     data.forEach( (d) => {
         d.revenue = +d.revenue;
         d.profit = +d.profit;
     });
-    console.log(data);
+    // console.log(data);
     let x = d3.scaleBand()
-        .domain(data.map((d)=> { console.log(d.month); return d.month }))
+        .domain(data.map((d)=> { return d.month }))
         .range([0, width])
-        .paddingInner(0.3)
-        .paddingOuter(0.3);
-        
+        .padding(0.3);
+
     let y = d3.scaleLinear()
         .domain([0,d3.max(data,(d)=>{
             return d.revenue;
@@ -40,9 +56,18 @@ d3.json("data/revenues.json").then( (data) =>{
     g.append("g")
         .attr("class", "x axis")
         .attr("transform", `translate(0, ${height})`)
-        .call(xAxisCall);
+        .call(xAxisCall); 
 
-    let yAxisCall = d3.axisLeft(y);
+    let yAxisCall = d3.axisLeft(y)
+        .tickFormat((d)=>{
+            return `$${d}`;
+        })
+        ;
+
+    g.append("g")
+        .attr("class", "y axis")
+        .call(yAxisCall);
+
     rects.enter()
         .append("rect")
             .attr("y", (d) => {return y(d.revenue)})
