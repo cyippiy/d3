@@ -3,7 +3,7 @@
 *    Mastering Data Visualization with D3.js
 *    Project 1 - Star Break Coffee
 */
-let margin = { left:100, right:10, top:10, bottom:150};
+let margin = { left:100, right:20, top:50, bottom:150};
 let width = 600 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
@@ -40,7 +40,7 @@ d3.json("data/revenues.json").then( (data) =>{
     let x = d3.scaleBand()
         .domain(data.map((d)=> { return d.month }))
         .range([0, width])
-        .padding(0.3);
+        .padding(0.2);
 
     let y = d3.scaleLinear()
         .domain([0,d3.max(data,(d)=>{
