@@ -75,4 +75,4 @@ d3.json("data/revenues.json").then( (data) =>{
             .attr("width", x.bandwidth )
             .attr("height", (d) => {return height - y(d.revenue)})
             .attr("fill", "grey");
-})
+});
