@@ -15,9 +15,24 @@ const g = d3.select("#chart-area")
 	.append("g")
 		.attr("transform",`translate(${margin.left},${margin.top})`);
 
+const xAxisGroup = g.append("g")
+	.attr("class","x axis")
+	.attr("transform", `translate(0,${height})`);
+
+const yAxisGroup = g.append("g")
+	.attr("class", "y axis");
+
+let x = d3.scaleBand()
+	.range([0,width])
+	.padding(0.2);
+
+let y = d3.scaleLinear()
+	.range([height,0]);
+
+
 d3.json("data/data.json").then(function(data){
 	console.log(data);
-	data.forEach();
+	// data.forEach();
 
 	let y = d3.scaleLinear()
 		.domain([0,90])
